@@ -2,6 +2,7 @@ package com.csc340.HW4;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -24,23 +25,25 @@ public class AnimalController {
      * @return a list of Animals  objects.
      */
     @GetMapping("/all")
-    public List<Animal> getAllAnimals() {
-        return service.getAllAnimals();
+//    public List<Animal> getAllAnimals() {
+//        return service.getAllAnimals();
+//    }
+    public String getAllAnimals(Model model) {
+        model.addAttribute("animalList", service.getAllAnimals());
+        //return service.getAllStudents();
+        return "animal-list";
     }
-
-    /**
-     * Get a specific Animal by Id.
-     * http://localhost:8080/animals/2
-     *
-     * @param animalId the unique Id for a Animals.
-     * @return One Animal object.
-     */
 
 
     @GetMapping("/{animalId}")
-    public Animal getOneAnimal(@PathVariable int animalId) {
-        return service.getAnimalById(animalId);
-    }
+//    public Animal getOneAnimal(@PathVariable int animalId) {
+//        return service.getAnimalById(animalId);
+//    }
+        public String getOneAnimal(@PathVariable int animalId, Model model) {
+            model.addAttribute("animal", service.getAnimalById(animalId));
+            model.addAttribute("title", animalId);
+            return "animal-details";
+        }
 
     /**
      * Get a list of Animals based on their classication.
@@ -79,34 +82,26 @@ public class AnimalController {
     public List<Animal> getAnimalsByNameContains(@RequestParam(name = "name", required = false) String name) {
         return service.getAnimalsByNameContains(name);
     }
+    @GetMapping("/createForm")
+public String  showCreateForm(){
+        return "animal-create";
+}
 
-    /**
-     * Create a new Animals entry.
-     * http://localhost:8080/animals/new --data '{ "AnimalId": 4, "name": "sample4", "major": "csc", "gpa": 3.55}'
-     *
-     * @param animal the new Animal object.
-     * @return the updated list of Animals.
-     */
     @PostMapping("/new")
     public List<Animal> addNewAnimal(@RequestBody Animal animal) {
         service.addNewAnimal(animal);
         return service.getAllAnimals();
     }
+//    @PutMapping("/update/{animalId}")
+//    public String getOneAnimal(@PathVariable int animalId, Model model) {
+//        return "animal-update";
+//    }
 
-    /**
-     * Update an existing Animal object.
-     * http://localhost:8080/Animals/update/2 --data '{
-     * "animalId": 1, "name": "cat", "ScientificName": "Felion", "Classification": "manmmal", "Habitat": "outside" , "Description": "this is a cat" }'
-     *
-     * @param animalId the unique Animal Id.
-     * @param animal the new update Animal details.
-     * @return the updated Animal object.
-     */
-    @PutMapping("/update/{animalId}")
-    public Animal updateAnimal(@PathVariable int animalId, @RequestBody Animal animal) {
-        service.updateAnimal(animalId, animal);
-        return service.getAnimalById(animalId);
-    }
+//    @PutMapping("/update")
+//    public Animal updateAnimal(@PathVariable int animalId, @RequestBody Animal animal) {
+//        service.updateAnimal(animalId, animal);
+//        return service.getAnimalById(animalId);
+//    }
 
     /**
      * Delete a Animal object.

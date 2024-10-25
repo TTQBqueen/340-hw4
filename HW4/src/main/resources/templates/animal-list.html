@@ -11,13 +11,14 @@
 
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="/students/all">
-<!--        <img src="/images/logo.jpg" alt="" width="80" height="60">-->
+    <a class="navbar-brand" href="/animals/all">
+      <img src="/images/logo.jpg" alt="" width="80" height="60">
     </a>
     <ul class="nav justify-content-end">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/students/all">Home</a>
+            <a class="nav-link active" aria-current="page" href="/animals/all">Home</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Second</a>
@@ -29,22 +30,44 @@
 </nav>
 
 
-
+<!--${} accuess modle atributes-->
 
 <div class="container">
-    <h1 data-th-text="${title}"></h1>
+    <a href ="animals/createForm">Creat new aimal</a>
+
     <form action="/animals">
         <input id = "search" type="text" name="name" placeholder="Search By Name &#128270;">
     </form>
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
+            <th>ID</th>
+            <th>name</th>
             <th>Scientific Name</th>
             <th>Classification</th>
             <th>Habitat</th>
             <th>Description</th>
         </tr>
-        <tr>
+
+    <tr data-th-each="animal: ${animalList}">
+        <td><a data-th-href="@{/animals/{animalId}(animalId=${animal.animalId})}" data-th-text="${animal.animalId}"></a></td>
+        <td data-th-text="${animal.name}"></td>
+        <td  data-th-text="${animal.scientificName}"></td>
+        <td data-th-text="${animal.classification}"></td>
+        <td data-th-text="${animal.habitat}"></td>
+        <td data-th-text="${animal.description}"></td>
+    </tr>
+
+    </table>
+
+
+
+</div>
+</body>
+</html>
+
+
+<!-- <tr>
+            <td>nan</td>
             <td>Lion</td>
             <td>Panthera leo</td>
             <td>Mammal</td>
@@ -52,6 +75,7 @@
             <td>Lions are social big cats that live in groups called prides.</td>
         </tr>
         <tr>
+            <td>nan</td>
             <td>Bald Eagle</td>
             <td>Haliaeetus leucocephalus</td>
             <td>Bird</td>
@@ -59,6 +83,7 @@
             <td>Known for their distinctive white heads and large wingspan.</td>
         </tr>
         <tr>
+            <td>nan</td>
             <td>Great White Shark</td>
             <td>Carcharodon carcharias</td>
             <td>Fish</td>
@@ -66,6 +91,7 @@
             <td>A large predatory shark known for its sharp teeth and powerful jaws.</td>
         </tr>
         <tr>
+            <td>nan</td>
             <td>Komodo Dragon</td>
             <td>Varanus komodoensis</td>
             <td>Reptile</td>
@@ -74,6 +100,12 @@
         </tr>
 
     </table>
-</div>
-</body>
-</html>
+
+    <table>
+    <tr>
+        <th>ID</th>
+        <th>name</th>
+        <th>Scientific Name</th>
+        <th>Classification</th>
+        <th>Habitat</th>
+        <th>Description</th>-->
