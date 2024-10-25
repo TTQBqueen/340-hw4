@@ -12,9 +12,10 @@
 </head>
 <body>
 
+<!--NAVIGATION-->
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href="/animals/all">
-      <img src="/images/logo.jpg" alt="" width="80" height="60">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm_motMYNUk-Ab5gZo9NmdVRQCa0TN8x82thcsaqu_n5keAXYEW976XSVRCb11RWNqTdo&usqp=CAU" alt="" width="80" height="60">
     </a>
     <ul class="nav justify-content-end">
         <li class="nav-item">
@@ -29,15 +30,15 @@
     </ul>
 </nav>
 
-
-<!--${} accuess modle atributes-->
+<!--CLASS CONTAINER-->
 
 <div class="container">
-    <a href ="animals/createForm">Creat new aimal</a>
 
     <form action="/animals">
-        <input id = "search" type="text" name="name" placeholder="Search By Name &#128270;">
+        <input type="text" name="name" placeholder="Search By Name &#128270;">
     </form>
+
+<!--TABLE-->
     <table class="table table-striped">
         <tr>
             <th>ID</th>
@@ -56,12 +57,12 @@
         <td data-th-text="${animal.habitat}"></td>
         <td data-th-text="${animal.description}"></td>
     </tr>
-
     </table>
-
+    <a href ="/animals/createForm" class="btn btn-primary">Create New Animal</a>
 
 
 </div>
+
 </body>
 </html>
 

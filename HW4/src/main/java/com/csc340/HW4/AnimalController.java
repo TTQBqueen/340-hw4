@@ -54,22 +54,26 @@ public class AnimalController {
      */
 
     @GetMapping("/class")
-    public List<Animal> getAnimalsByClassification(@RequestParam(name = "classification", defaultValue = "manmmals") String classification) {
-        return service.getAnimalsByClassification(classification);
+    public String getAnimalsByClassification(@RequestParam(name = "classification", defaultValue = "manmmals") String classification, Model model) {
+        model.addAttribute("classification",service.getAnimalsByClassification(classification));
+        return "animal-list";
     }
-
 
     /**
-     * Get a list of Animals based on their name.
-     * http://localhost:8080/animals?name=cat
+     * Get a list of Animles based on their name.
+     * <a href="http://localhost:8080/animles?name=cat">...</a>
      *
      * @param name the search key.
-     * @return A list of Animal objects matching the search key.
+     * @return A list of Student objects matching the search key.
      */
     @GetMapping("")
-    public List<Animal> getAnimalsByName(@RequestParam(name = "name", defaultValue = "animal") String name) {
-        return service.getAnimalsByName(name);
+    public String  getAnimalsByNameContains(@RequestParam(name = "name", defaultValue = "cat") String name, Model model) {
+        model.addAttribute("animalList", service.getAnimalsByNameContains(name));
+        model.addAttribute("title", "Animal Name: "+ name);
+        return "animal-list";
     }
+
+
     /**
      * Get a list of Animals based on their name.
      * http://localhost:8080/animals/search?name=blue
@@ -82,26 +86,45 @@ public class AnimalController {
     public List<Animal> getAnimalsByNameContains(@RequestParam(name = "name", required = false) String name) {
         return service.getAnimalsByNameContains(name);
     }
-    @GetMapping("/createForm")
-public String  showCreateForm(){
-        return "animal-create";
-}
+
 
     @PostMapping("/new")
-    public List<Animal> addNewAnimal(@RequestBody Animal animal) {
+    public String addNewAnimal(@ModelAttribute("animal") Animal animal) {
         service.addNewAnimal(animal);
-        return service.getAllAnimals();
+        return "redirect:/animals/all";
     }
-//    @PutMapping("/update/{animalId}")
-//    public String getOneAnimal(@PathVariable int animalId, Model model) {
-//        return "animal-update";
-//    }
 
-//    @PutMapping("/update")
-//    public Animal updateAnimal(@PathVariable int animalId, @RequestBody Animal animal) {
-//        service.updateAnimal(animalId, animal);
-//        return service.getAnimalById(animalId);
-//    }
+    @GetMapping("/createForm")
+    public String showCreateForm(Model model) {
+        Animal animal = new Animal();
+        //attach user list
+        model.addAttribute("animalList", service.getAllAnimals());
+        return "/animal-create";
+    }
+
+
+    /**
+     * Show the update form.
+     * @param animalId
+     * @param model
+     * @return
+     */
+    @GetMapping("/update/{animalId}")
+    public String showUpdateForm(@PathVariable int animalId, Model model) {
+        model.addAttribute("animal", service.getAnimalById(animalId));
+        return "animal-update";
+    }
+
+    /**
+     * Perform the update.
+     * @param animal
+     * @return
+     */
+    @PostMapping("/update")
+    public String updateStudent(Animal animal) {
+        service.addNewAnimal(animal);
+        return "redirect:/animals/" + animal.getAnimalId();
+    }
 
     /**
      * Delete a Animal object.
@@ -110,10 +133,10 @@ public String  showCreateForm(){
      * @param animalId the unique Animal Id.
      * @return the updated list of Animals.
      */
-    @DeleteMapping("/delete/{animalId}")
-    public List<Animal> deleteAnimalById(@PathVariable int animalId) {
+    @GetMapping("/delete/{animalId}")
+    public String deleteAnimalById(@PathVariable int animalId) {
         service.deleteAnimalById(animalId);
-        return service.getAllAnimals();
+        return "redirect:/animals/all";
     }
 }
 
