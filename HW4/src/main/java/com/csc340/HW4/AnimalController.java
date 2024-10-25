@@ -39,52 +39,25 @@ public class AnimalController {
 //    public Animal getOneAnimal(@PathVariable int animalId) {
 //        return service.getAnimalById(animalId);
 //    }
-        public String getOneAnimal(@PathVariable int animalId, Model model) {
-            model.addAttribute("animal", service.getAnimalById(animalId));
-            model.addAttribute("title", animalId);
-            return "animal-details";
-        }
-
-    /**
-     * Get a list of Animals based on their classication.
-     * http://localhost:8080/animals/class
-     *
-     * @param classification the search key.
-     * @return A list of Animals objects matching the classification key.
-     */
-
-    @GetMapping("/class")
-    public String getAnimalsByClassification(@RequestParam(name = "classification", defaultValue = "manmmals") String classification, Model model) {
-        model.addAttribute("classification",service.getAnimalsByClassification(classification));
-        return "animal-list";
+    public String getOneAnimal(@PathVariable int animalId, Model model) {
+        model.addAttribute("animal", service.getAnimalById(animalId));
+        model.addAttribute("title", animalId);
+        return "animal-details";
     }
 
+
     /**
-     * Get a list of Animles based on their name.
+     * Get a list of Animals based on their name.
      * <a href="http://localhost:8080/animles?name=cat">...</a>
      *
      * @param name the search key.
      * @return A list of Student objects matching the search key.
      */
     @GetMapping("")
-    public String  getAnimalsByNameContains(@RequestParam(name = "name", defaultValue = "cat") String name, Model model) {
+    public String getAnimalsByNameContains(@RequestParam(name = "name", defaultValue = "cat") String name, Model model) {
         model.addAttribute("animalList", service.getAnimalsByNameContains(name));
-        model.addAttribute("title", "Animal Name: "+ name);
+        model.addAttribute("title", "Animal Name: " + name);
         return "animal-list";
-    }
-
-
-    /**
-     * Get a list of Animals based on their name.
-     * http://localhost:8080/animals/search?name=blue
-     *
-     * @param name the search key.
-     * @return A list of Animal objects matching the search key.
-     */
-
-    @GetMapping("/search")
-    public List<Animal> getAnimalsByNameContains(@RequestParam(name = "name", required = false) String name) {
-        return service.getAnimalsByNameContains(name);
     }
 
 
@@ -102,9 +75,9 @@ public class AnimalController {
         return "/animal-create";
     }
 
-
     /**
      * Show the update form.
+     *
      * @param animalId
      * @param model
      * @return
@@ -117,6 +90,7 @@ public class AnimalController {
 
     /**
      * Perform the update.
+     *
      * @param animal
      * @return
      */
@@ -138,5 +112,34 @@ public class AnimalController {
         service.deleteAnimalById(animalId);
         return "redirect:/animals/all";
     }
-}
 
+
+//Not Needed
+
+    /**
+     * Get a list of Animals based on their classication.
+     * http://localhost:8080/animals/class
+     *
+     * @param classification the search key.
+     * @return A list of Animals objects matching the classification key.
+     */
+
+    @GetMapping("/class")
+    public String getAnimalsByClassification(@RequestParam(name = "classification", defaultValue = "manmmals") String classification, Model model) {
+        model.addAttribute("classification", service.getAnimalsByClassification(classification));
+        return "animal-list";
+    }
+
+    /**
+     * Get a list of Animals based on their name.
+     * http://localhost:8080/animals/search?name=blue
+     *
+     * @param name the search key.
+     * @return A list of Animal objects matching the search key.
+     */
+
+    @GetMapping("/search")
+    public List<Animal> getAnimalsByNameContains(@RequestParam(name = "name", required = false) String name) {
+        return service.getAnimalsByNameContains(name);
+    }
+}
